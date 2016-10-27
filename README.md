@@ -32,14 +32,7 @@ nano .env
 
 ## Todos (by priority)
 
-1. ~~Remove dev code from router.ts;~~
-2. ~~Fix building process for production;~~
-3. ~~Allow user to add courses;~~
-4. ~~Implement form validation (back-end) and authorization on the routes (back-end);~~
-5. ~~Implement form validation and on the client~~;
-6. Allow administrator to review files before making it public;
-7. Implement virus verification on the files before making it public using [clamscan](https://www.npmjs.com/package/clamscan);
-8. User interface;
-9. Implement server renderization using [Universal](https://universal.angular.io/).
-10. File to sync database and add migrations to SequelizeMeta
-
+1. Convert code to ES6 (babel + gulp);
+2. Implement sessions with JWT;
+3. Allow administrator to review files before making it public;
+4. Implement virus verification on the files before making it public using [clamscan](https://www.npmjs.com/package/clamscan);
