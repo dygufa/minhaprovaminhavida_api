@@ -1,17 +1,37 @@
 # Minha prova, minha vida (MPMV) API
 
-MPMV API was developed using Node.js, Typescript, Express and Postgres to help college students to find study material like exams from previous years.
+MPMV API was developed using Node.js, Typescript, Express and Postgres to help college students to find study material like exams from previous years. It uses JSON to exchange data.
 
 ## Using
 
+### Response 
+
+The response from the API is formatted as:
+
+```
+{
+    ok: boolean
+    data: any | Error
+} 
+
+Error {
+    code: number
+    msg: string
+}
+```
+
+In case of success the API will return a 200 HTTP Code and "ok" will be true. In case of error the HTTP code will be the one that best fit the situation, "ok" will be false and "data" will return an object with the code and message related to the error.
+
 ### Endpoints
 
-URL | Data | Response |
+URL | Data | Success Response |
 --- | --- | ---
 GET /files | - | File[]
 GET /files/:id | - | File
 POST /files | NewFile | File
 DELETE /files:id | - | -
+
+
 
 ### Types
 
