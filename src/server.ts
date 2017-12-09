@@ -8,6 +8,7 @@ import * as multer from "multer";
 import * as passport from "passport";
 import * as cors from "cors";
 import sequelize from "./sequelize";
+import getEnv from "./helpers/env";
 
 /**
  * Controllers
@@ -22,9 +23,9 @@ var cwd = process.cwd();
 
 var upload = multer({ dest: cwd + '/temporary_files' });
 
-var SESSION_SECRET = process.env.SESSION_SECRET || 'mySecretKey';
-var NODE_ENV = process.env.NODE_ENV || 'development';
-var PORT = process.env.PORT || 5020;
+// var SESSION_SECRET = process.env.SESSION_SECRET || 'mySecretKey';
+var NODE_ENV = getEnv("NODE_ENV") || 'development';
+var PORT = getEnv("PORT") || 5020;
 
 app.use(express.static(cwd + '/browser/build'));
 app.use(bodyParser.json());
