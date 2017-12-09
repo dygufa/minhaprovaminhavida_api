@@ -22,7 +22,7 @@ export default class File extends Model<File> {
     @Column
     status: string;
 
-    @IsIn({msg: "Tipo inválido", args: [["exam"]]})
+    @IsIn({msg: "Tipo inválido", args: [["exam", "test"]]})
     @Column
     type: string;
 
