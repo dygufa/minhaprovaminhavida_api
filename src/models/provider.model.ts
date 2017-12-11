@@ -4,10 +4,10 @@ import { User } from "./";
 @Table({
     timestamps: true,
 })
-export class Provider extends Model<Provider> {
+export default class Provider extends Model<Provider> {
     @IsIn({ msg: "Tipo inválido", args: [["facebook", "google"]] })
     @Column
-    type: string;
+    type: "facebook" | "google";
 
     @Column
     externalId: string;

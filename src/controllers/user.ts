@@ -1,23 +1,33 @@
 import { Request, Response, NextFunction } from "express";
+import * as jwt from "jsonwebtoken";
+import getEnv from "../helpers/env";
 
-/**
- * GET /users/logout
- * Logout user
- */
+function generateJWT(payload: any) {
+    return jwt.sign(payload, getEnv("JWT_SECRET"));
+}
 
-// export let logout = function(req: Request, res: Response) {
+export let loginFacebook = (req: Request, res: Response) => {
+    const payload = generateJWT({
+        id: req.user
+    });
 
-// };
+    res.send({
+        ok: true,
+        data: {
+            jwt: payload
+        }
+    });
+};
 
-// exports.loginFacebook = function(passport) {
-// 	return passport.authenticate('facebook', {
-//     	scope : ['email'] 
-//     });  
-// };
+export let loginGoogle = (req: Request, res: Response) => {
+    const payload = generateJWT({
+        id: req.user
+    });
 
-// exports.loginFacebookCallback = function(passport) {
-// 	return passport.authenticate('facebook', {
-//     	successRedirect : '/',
-//     	failureRedirect : '/'
-//   	});
-// }
+    res.send({
+        ok: true,
+        data: {
+            jwt: payload
+        }
+    });
+};

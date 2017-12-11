@@ -5,6 +5,7 @@ import * as fs from "fs";
 import getEnv from "../helpers/env";
 
 const S3_BUCKET = getEnv("S3_BUCKET");
+const s3 = new aws.S3();
 
 // TODO
 export function upload(data: any) {
@@ -13,19 +14,18 @@ export function upload(data: any) {
     const extension = mime.extension(file.mimetype);
     const newFilename = Date.now().toString() + '-' + filename + '.' + extension;
 
-    var fileStream = fs.createReadStream(file.path);
-
-    var s3obj = new aws.S3({
-        params: {
+    const fileStream = fs.createReadStream(file.path);
+    
+    return new Promise(function (resolve, reject) {        
+        const params = {
             Bucket: S3_BUCKET,
             Key: newFilename,
             ContentType: file.mimetype,
-            ACL: 'public-read'
-        }
-    });
-
-    return new Promise(function (resolve, reject) {
-        s3obj.upload({ Body: fileStream, Bucket: S3_BUCKET, Key: "" }).send((err, data) => {
+            ACL: 'public-read',
+            Body: fileStream
+        };
+        
+        s3.upload(params).send((err, data) => {
             if (err) {
                 return reject(err);
             }

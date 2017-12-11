@@ -53,10 +53,9 @@ api.delete('/files/:id', fileController.deleteFile);
 // api.post('/universities', controllers.universities.addUniversity);
 // api.delete('/universities/:id', controllers.universities.removeUniversity);
 
-// api.get('/users/isLogged', controllers.users.isLogged);
-// api.get('/users/logout', controllers.users.logout);
-// api.get('/users/login/facebook', controllers.users.loginFacebook(passport));
-// api.get('/users/login/facebook/callback', controllers.users.loginFacebookCallback(passport));
+api.get('/me');
+api.get('/users/login/facebook', passport.authenticate('facebook-token'), userController.loginFacebook);
+api.get('/users/login/google', passport.authenticate('google-token'), userController.loginGoogle);
 
 app.use('/v1', api);
 
