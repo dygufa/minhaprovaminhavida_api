@@ -54,8 +54,8 @@ api.delete('/files/:id', fileController.deleteFile);
 // api.delete('/universities/:id', controllers.universities.removeUniversity);
 
 api.get('/me');
-api.get('/users/login/facebook', passport.authenticate('facebook-token'), userController.loginFacebook);
-api.get('/users/login/google', passport.authenticate('google-token'), userController.loginGoogle);
+api.post('/users/login/facebook', passport.authenticate('facebook-token'), userController.loginFacebook);
+api.post('/users/login/google', passport.authenticate('google-token'), userController.loginGoogle);
 
 app.use('/v1', api);
 
