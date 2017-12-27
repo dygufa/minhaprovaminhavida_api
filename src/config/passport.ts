@@ -1,18 +1,19 @@
-import passport from 'passport';
-import FacebookTokenStrategy from 'passport-facebook-token';
-import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
+import * as passport from "passport";
+import * as FacebookTokenStrategy from "passport-facebook-token";
+import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
 import { User, Provider } from "../models/";
+import getEnv from "../helpers/env";
 
-const GoogleTokenStrategy = require('passport-google-token');
+const GoogleTokenStrategy = require("passport-google-token");
 
 // TODO: definir avatar
 /**
  * Google Strategy
  */
 passport.use(new FacebookTokenStrategy({
-    clientID: process.env.FACEBOOK_APP_ID,
-    clientSecret: process.env.FACEBOOK_APP_SECRET,
-    profileFields: ['id', 'email', 'name', 'link', 'location', 'picture']
+    clientID: getEnv("FACEBOOK_APP_ID"),
+    clientSecret: getEnv("FACEBOOK_APP_SECRET"),
+    profileFields: ["id", "email", "name", "link", "location", "picture"]
 }, async (accessToken, refreshToken, profile, done) => {
     let provider;
     try {
@@ -44,10 +45,10 @@ passport.use(new FacebookTokenStrategy({
 passport.use(new GoogleTokenStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-}, async (accessToken, refreshToken, profile, done) => {
+}, async (accessToken: any, refreshToken: any, profile: any, done: any) => {
     let provider;
     try {
-        const provider = await Provider.findOne({ where: { type: "google", externalId: profile.id } });
+        provider = await Provider.findOne({ where: { type: "google", externalId: profile.id } });
     } catch (err) {
         return done(err, false);
     }
@@ -74,8 +75,8 @@ passport.use(new GoogleTokenStrategy({
 passport.use(new JwtStrategy({
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     secretOrKey: process.env.JWT_SECRET,
-    issuer: 'accounts.examplesoft.com',
-    audience: 'yoursite.net'
+    issuer: "accounts.examplesoft.com",
+    audience: "yoursite.net"
 }, async (jwt_payload, done) => {
     let user;
 
