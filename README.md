@@ -2,6 +2,8 @@
 
 MPMV API was developed using Node.js, Typescript, Express and Postgres to help college students to find study material like exams from previous years. It uses JSON to exchange data.
 
+[![Build Status](https://travis-ci.org/dygufa/minhaprovaminhavida_api.svg?branch=master)](https://travis-ci.org/dygufa/minhaprovaminhavida_api)
+
 ## Using
 
 ### Response 
