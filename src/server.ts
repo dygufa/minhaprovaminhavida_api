@@ -47,6 +47,10 @@ var auth = function (req: Request, res: Response, next: NextFunction) {
     // }
 };
 
+api.get('/_status', (req: Request, res: Response) => {
+    res.status(200).json({ 'ok': true });
+});
+
 api.get('/files', fileController.getFiles);
 api.get('/files/:id', fileController.getFile);
 api.post('/files', auth, upload.array("uploads[]", 12), fileController.postFile);
