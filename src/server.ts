@@ -1,4 +1,11 @@
-var dotenv = require('dotenv').config();
+var dotenv = require("dotenv");
+
+// Handling cases where .env does not exist
+try {
+    dotenv.config();
+} catch (err) {
+    console.log(err);
+}
 
 import * as express from "express";
 import { Request, Response, NextFunction } from "express";
