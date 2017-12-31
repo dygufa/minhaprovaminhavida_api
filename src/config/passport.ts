@@ -4,7 +4,7 @@ import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
 import { User, Provider } from "../models/";
 import getEnv from "../helpers/env";
 
-const GoogleTokenStrategy = require("passport-google-token");
+const GoogleTokenStrategy = require("passport-google-token").Strategy;
 
 // TODO: definir avatar
 /**
@@ -54,7 +54,8 @@ passport.use(new GoogleTokenStrategy({
     }
 
     if (provider) {
-        return done(null, provider.userId);
+        const user = await User.findById(provider.userId);
+        return done(null, user!.get({ plain: true }));
     }
 
     const newUser = await User.create({ name: profile.displayName, email: profile.emails[0].value });
@@ -66,7 +67,7 @@ passport.use(new GoogleTokenStrategy({
         userId: newUser.id
     });
 
-    done(null, newUser.id);
+    done(null, newUser.get({ plain: true }));
 }));
 
 /**
@@ -75,8 +76,6 @@ passport.use(new GoogleTokenStrategy({
 passport.use(new JwtStrategy({
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     secretOrKey: process.env.JWT_SECRET,
-    issuer: "accounts.examplesoft.com",
-    audience: "yoursite.net"
 }, async (jwt_payload, done) => {
     let user;
 
@@ -87,7 +86,7 @@ passport.use(new JwtStrategy({
     }
         
     if (user) {
-        return done(null, user);
+        return done(null, user.get({ plain: true }));
     } else {
         return done(null, false);
     }
