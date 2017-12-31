@@ -4,3 +4,4 @@ dist
 temporary_files/*
 !temporary_files/.empty
 *.swp
+yarn-error.log
