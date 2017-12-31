@@ -23,7 +23,8 @@ passport.use(new FacebookTokenStrategy({
     }
 
     if (provider) {
-        return done(null, provider.userId);
+        const user = await User.findById(provider.userId);
+        return done(null, user!.get({ plain: true }));
     }
 
     const newUser = await User.create({ name: profile.name.givenName, email: profile.emails[0].value});            
@@ -35,7 +36,7 @@ passport.use(new FacebookTokenStrategy({
         userId: newUser.id
     });
     
-    done(null, newUser.id);
+    done(null, newUser.get({ plain: true }));
 }));
 
 /**
