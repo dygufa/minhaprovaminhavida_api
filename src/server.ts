@@ -77,7 +77,7 @@ app.use("/v1", api);
 /**
  * Only starts to listen the respective port after the initialization of the connection with the database.
  */
-sequelize.sync().then(() => {
+sequelize.sync({ force: process.env.NODE_ENV === "development" ? true : false}).then(() => {
     app.listen(PORT, (err: any) => {
         if (err) {
             console.error(err);
