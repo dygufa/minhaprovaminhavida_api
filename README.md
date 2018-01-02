@@ -1,6 +1,6 @@
 # Minha prova, minha vida (MPMV) API
 
-MPMV API was developed using Node.js, Typescript, Express and Postgres to help college students to find study material like exams from previous years. It uses JSON to exchange data.
+MPMV API uses Node.js, Typescript, Express and Postgres to help college students to find study material like exams from previous years.
 
 [![Build Status](https://travis-ci.org/dygufa/minhaprovaminhavida_api.svg?branch=master)](https://travis-ci.org/dygufa/minhaprovaminhavida_api)
 
@@ -17,35 +17,88 @@ The response from the API is formatted as:
 } 
 
 Error {
-    code: number
+    error: string
     msg: string
 }
 ```
 
-In case of success the API will return a 200 HTTP Code and "ok" will be true. In case of error the HTTP code will be the one that best fit the situation, "ok" will be false and "data" will return an object with the code and message related to the error.
+In case of success the API will return a 200 HTTP Code along with the "ok" parameter defined as true. In case of error the HTTP code will be the one that best fit the situation, "ok" will be false and "data" will return an object with the error name and the message related to the error.
 
 ### Endpoints
 
-URL | Data | Success Response |
---- | --- | ---
-GET /files | - | File[]
-GET /files/:id | - | File
-POST /files | NewFile | File
-DELETE /files:id | - | -
-GET /users/me | - | User
-POST /users/login/facebook | `{ access_token: string }` | JWTAndUser
-POST /users/login/google | `{ access_token: string }` | JWTAndUser
+All the comunication is encoded using JSON (`application/json`), except for the endpoint `POST /files` that uses `multipart/form-data` in order to handle the file upload.
 
-
+URL | Content-Type | Data | Success Response |
+--- | --- | --- | ---
+GET /files | - | - | File[]
+GET /files/:id | - | - | File
+POST /files | `multipart/form-data` | Keys: i) json: containing a `NewFile` JSON object; ii) files: the files to be uploaded. | File
+DELETE /files/:id | - | - | -
+GET /universities | - | - | BasicUniversity[]
+GET /universities/:id | - | - | University
+POST /universities | `application/json` | `NewUniversity` | University
+DELETE /universities/:id | - | - | -
+GET /courses | - | - | Course[]
+GET /courses/:id | - | - | Course
+POST /courses | `application/json` | `NewCourse` | Course
+DELETE /courses/:id | - | - | -
+GET /users/me | - | - | User
+POST /users/login/facebook | `application/json` | `{ access_token: string }` | JWTAndUser
+POST /users/login/google | `application/json` | `{ access_token: string }` | JWTAndUser
 
 ### Types
+
+
+#### NewCourse
+```
+NewCourse {
+    id: number
+    name: string
+    code: string
+    universityId: number
+}
+```
+#### Course
+```
+Course {
+    id: number
+    name: string
+    code: string
+}
+```
+
+#### NewUniversity
+```
+NewUniversity {
+    name: string
+    acronym: string
+}
+```
+#### BasicUniversity
+```
+BasicUniversity {
+    id: number
+    name: string
+    acronym: string
+}
+```
+
+#### University
+```
+University {
+    id: number
+    name: string
+    acronym: string
+    courses: Course[]
+}
+```
 
 #### User
 ```
 User {
     id: number
-    name: string,
-    email: string,
+    name: string
+    email: string
     avatar: string
 }
 ```
@@ -53,7 +106,7 @@ User {
 #### JWTAndUser
 ```
 JWTAndUser {
-    jwt: string,
+    jwt: string
     user: User
 }
 ```
@@ -66,19 +119,9 @@ File {
     file: string
     createdAt: Date 
     type: "exam" | "test"
-    course: {
-        id: string
-        name: string
-    }
-    university: {
-        id: string
-        name: string
-        acronym: string
-    }
-    user: {
-        id: string
-        name: string
-    } | null
+    course: Course
+    university: BasicUniversity
+    user: User
 }
 ```
 
@@ -88,19 +131,8 @@ NewFile {
     name: string
     file: Blob File
     type: "exam" | "test"
-    course: {
-        id: string
-        name: string
-    } | string
-    university: {
-        id: string
-        name: string
-        acronym: string
-    } | string
-    user: {
-        id: string
-        name: string
-    } | string
+    universityId: string
+    courseId: string
 }
 ```
 
@@ -136,6 +168,9 @@ nano .env
 
 1. ~~Convert code to ES6 (babel + gulp);~~
 2. ~~Implement sessions with JWT;~~
-3. Implement file upload;
-4. Allow administrator to review files before making it public;
-5. Implement virus verification on the files before making it public using [clamscan](https://www.npmjs.com/package/clamscan);
+3. ~~Implement file upload;~~
+4. Add user roles;
+5. Add location related data to university;
+6. PUT methods;
+7. Allow administrator to review files before making it public;
+8. Implement virus verification on the files before making it public using [clamscan](https://www.npmjs.com/package/clamscan);
