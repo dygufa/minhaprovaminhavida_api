@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { University } from "../models/";
+import { University, Course } from "../models/";
 import { only } from "sanitize-object";
 
 const _sanitizeUniversity = (university: University) => {
@@ -16,6 +16,21 @@ export let getUniversities = (req: Request, res: Response) => {
             data: universities
         });
 	});
+}
+
+export let getUniversity = (req: Request, res: Response) => {
+    University.findById(req.params.id, {
+        attributes: ["id", "name", "acronym"],
+        include: [{
+            model: Course,
+            attributes: ["id", "name", "code"]
+        }]
+    }).then(function (universities) {
+        res.send({
+            ok: true,
+            data: universities
+        });
+    });
 }
 
 export let addUniversity = (req: Request, res: Response) => {
