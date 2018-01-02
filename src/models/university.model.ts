@@ -1,5 +1,5 @@
-import { Table, Column, Model, ForeignKey, BelongsTo, AllowNull, NotNull, Length, IsIn } from 'sequelize-typescript';
-import { User } from "./";
+import { Table, Column, Model, HasMany, ForeignKey, BelongsTo, AllowNull, NotNull, Length, IsIn } from 'sequelize-typescript';
+import { User, Course } from "./";
 
 @Table({
     timestamps: true,
@@ -27,4 +27,7 @@ export default class University extends Model<University> {
 
     @BelongsTo(() => User)
     user: User;
+
+    @HasMany(() => Course)
+    courses: Course[];
 }
