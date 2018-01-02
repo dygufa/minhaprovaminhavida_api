@@ -3,6 +3,7 @@ import { User, University } from "./";
 
 @Table({
     timestamps: true,
+    tableName: "courses"
 })
 export default class Course extends Model<Course> {
     @NotNull
