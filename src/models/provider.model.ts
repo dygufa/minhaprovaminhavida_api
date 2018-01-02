@@ -3,6 +3,7 @@ import { User } from "./";
 
 @Table({
     timestamps: true,
+    tableName: "providers"
 })
 export default class Provider extends Model<Provider> {
     @IsIn({ msg: "Tipo inválido", args: [["facebook", "google"]] })

@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "migrate": "sequelize db:migrate",
-    "dev": "npx tsc --watch && nodemon dist/server.js",
+    "dev": "npx tsc --watch & nodemon dist/server.js",
     "prod": "npm run migrate && node dist/server.js"
   },
   "repository": {
