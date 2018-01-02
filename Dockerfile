@@ -10,4 +10,4 @@ COPY . /app
 RUN node --max_old_space_size=4096 node_modules/typescript/bin/tsc
 
 EXPOSE 8080
-CMD [ "node", "dist/server.js" ]
+CMD [ "npm", "run", "prod" ]

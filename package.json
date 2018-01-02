@@ -4,7 +4,9 @@
   "description": ":school: Repository for UFBA's exams and study material!",
   "main": "server.js",
   "scripts": {
-    "dev": "npx tsc --watch & nodemon dist/server.js"
+    "migrate": "sequelize db:migrate",
+    "dev": "npx tsc --watch && nodemon dist/server.js",
+    "prod": "npm run migrate && node dist/server.js"
   },
   "repository": {
     "type": "git",

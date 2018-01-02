@@ -1,4 +1,4 @@
-var dotenv = require("dotenv");
+const dotenv = require("dotenv");
 
 // Handling cases where .env does not exist
 try {
@@ -74,15 +74,10 @@ api.post("/users/login/google", passport.authenticate("google-token", { session:
 
 app.use("/v1", api);
 
-/**
- * Only starts to listen the respective port after the initialization of the connection with the database.
- */
-sequelize.sync({ force: process.env.NODE_ENV === "development" ? true : false}).then(() => {
-    app.listen(PORT, (err: any) => {
-        if (err) {
-            console.error(err);
-        } else {
-            console.log("App is ready at : " + PORT);
-        }
-    })
+app.listen(PORT, (err: any) => {
+    if (err) {
+        console.error(err);
+    } else {
+        console.log("App is ready at : " + PORT);
+    }
 });
