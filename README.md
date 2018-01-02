@@ -32,10 +32,31 @@ GET /files | - | File[]
 GET /files/:id | - | File
 POST /files | NewFile | File
 DELETE /files:id | - | -
+GET /users/me | - | User
+POST /users/login/facebook | `{ access_token: string }` | JWTAndUser
+POST /users/login/google | `{ access_token: string }` | JWTAndUser
 
 
 
 ### Types
+
+#### User
+```
+User {
+    id: number
+    name: string,
+    email: string,
+    avatar: string
+}
+```
+
+#### JWTAndUser
+```
+JWTAndUser {
+    jwt: string,
+    user: User
+}
+```
 
 #### File
 ```
@@ -114,6 +135,7 @@ nano .env
 ## Todos (by priority)
 
 1. ~~Convert code to ES6 (babel + gulp);~~
-2. Implement sessions with JWT;
-3. Allow administrator to review files before making it public;
-4. Implement virus verification on the files before making it public using [clamscan](https://www.npmjs.com/package/clamscan);
+2. ~~Implement sessions with JWT;~~
+3. Implement file upload;
+4. Allow administrator to review files before making it public;
+5. Implement virus verification on the files before making it public using [clamscan](https://www.npmjs.com/package/clamscan);
