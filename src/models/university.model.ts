@@ -1,4 +1,4 @@
-import { Table, Column, Model, ForeignKey, BelongsTo, NotNull, Length, IsIn } from 'sequelize-typescript';
+import { Table, Column, Model, ForeignKey, BelongsTo, AllowNull, NotNull, Length, IsIn } from 'sequelize-typescript';
 import { User } from "./";
 
 @Table({
@@ -6,14 +6,16 @@ import { User } from "./";
     tableName: "universities"
 })
 export default class University extends Model<University> {
-    @NotNull
-    @Length({ min: 3, max: 15, msg: 'O nome do arquivo deve ter entre 5 e 30 caracteres.' })
+    @AllowNull(false)
+    @Length({ min: 3, max: 100, msg: 'O nome da universidade deve ter entre 5 e 100 caracteres.' })
     @Column
     name: string;
 
+    @AllowNull(false)
     @Column
     acronym: string;
 
+    @AllowNull(false)
     @IsIn({ msg: "Status inválido", args: [["pending", "approved"]] })
     @Column
     status: string;

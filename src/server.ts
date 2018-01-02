@@ -24,6 +24,7 @@ import "./config/passport";
 
 import * as fileController from "./controllers/file";
 import * as userController from "./controllers/user";
+import * as universityController from "./controllers/university";
 
 const app = express();
 const api = express.Router();
@@ -42,12 +43,30 @@ app.use(passport.initialize());
 app.use(cors());
 
 var auth = function (req: Request, res: Response, next: NextFunction) {
-    next();
-    // if (!req.isAuthenticated()) {
-    //     res.status(401).send({ error: [{ message: "Você precisa estar logado para fazer esta operação." }] });
-    // } else {
-    //     next();
-    // }
+    passport.authenticate("jwt", { session: false }, function (err, user, info) {
+        if (err) { 
+            return res.status(500).json({
+                ok: false,
+                data: {
+                    error: "internalError",
+                    msg: "Erro interno no autenticador."
+                }
+            })
+        }
+
+        if (!user) { 
+            return res.status(401).json({ 
+                ok: false,
+                data: {
+                    error: "notAllowed", 
+                    msg: "Você precisa estar logado para fazer esta operação." 
+                } 
+            });
+        }
+
+        req.user = user;
+        next();
+    })(req, res, next);
 };
 
 app.options('*', cors())
@@ -57,18 +76,18 @@ api.get("/_status", (req: Request, res: Response) => {
 
 api.get("/files", fileController.getFiles);
 api.get("/files/:id", fileController.getFile);
-api.post("/files", auth, upload.array("uploads[]", 12), fileController.postFile);
+api.post("/files", auth, upload.array("files", 10), fileController.postFile);
 api.delete("/files/:id", fileController.deleteFile);
 
 // api.get("/courses", controllers.courses.getIndex);
 // api.post("/courses", controllers.courses.addCourse);
 // api.delete("/courses/:id", controllers.courses.removeCourse);
 
-// api.get("/universities", controllers.universities.getIndex);
-// api.post("/universities", controllers.universities.addUniversity);
-// api.delete("/universities/:id", controllers.universities.removeUniversity);
+api.get("/universities", universityController.getUniversities);
+api.post("/universities", auth, universityController.addUniversity);
+api.delete("/universities/:id", auth, universityController.removeUniversity);
 
-api.get("/users/me", passport.authenticate("jwt", { session: false }), userController.me);
+api.get("/users/me", auth, userController.me);
 api.post("/users/login/facebook", passport.authenticate("facebook-token", { session: false }), userController.loginFacebook);
 api.post("/users/login/google", passport.authenticate("google-token", { session: false }), userController.loginGoogle);
 
