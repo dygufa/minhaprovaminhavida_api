@@ -9,7 +9,7 @@ const _generateJWT = (payload: any) => {
 }
 
 const _sanitizeUser = (user: User) => {
-    const sanitizer = only("name", "email", "id");
+    const sanitizer = only("name", "email", "id", "avatar");
     return sanitizer(user);
 }
 
