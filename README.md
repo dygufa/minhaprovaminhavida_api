@@ -102,6 +102,15 @@ User {
     avatar: string
 }
 ```
+#### PublicUser
+```
+PublicUser {
+    id: number
+    name: string
+    email: string
+    avatar: string
+}
+```
 
 #### JWTAndUser
 ```
@@ -121,7 +130,7 @@ File {
     type: "exam" | "test"
     course: Course
     university: BasicUniversity
-    user: User
+    user: PublicUser
 }
 ```
 
