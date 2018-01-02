@@ -25,6 +25,7 @@ import "./config/passport";
 import * as fileController from "./controllers/file";
 import * as userController from "./controllers/user";
 import * as universityController from "./controllers/university";
+import * as courseController from "./controllers/course";
 
 const app = express();
 const api = express.Router();
@@ -32,7 +33,6 @@ var cwd = process.cwd();
 
 var upload = multer({ dest: cwd + "/temporary_files" });
 
-// var SESSION_SECRET = process.env.SESSION_SECRET || "mySecretKey";
 var NODE_ENV = getEnv("NODE_ENV") || "development";
 var PORT = getEnv("PORT") || 5020;
 
@@ -79,11 +79,12 @@ api.get("/files/:id", fileController.getFile);
 api.post("/files", auth, upload.array("files", 10), fileController.postFile);
 api.delete("/files/:id", fileController.deleteFile);
 
-// api.get("/courses", controllers.courses.getIndex);
-// api.post("/courses", controllers.courses.addCourse);
-// api.delete("/courses/:id", controllers.courses.removeCourse);
+api.get("/courses", courseController.getCourses);
+api.post("/courses", auth, courseController.addCourse);
+api.delete("/courses/:id", auth, courseController.removeCourse);
 
 api.get("/universities", universityController.getUniversities);
+api.get("/universities/:id", universityController.getUniversity);
 api.post("/universities", auth, universityController.addUniversity);
 api.delete("/universities/:id", auth, universityController.removeUniversity);
 
@@ -97,6 +98,6 @@ app.listen(PORT, (err: any) => {
     if (err) {
         console.error(err);
     } else {
-        console.log("App is ready at : " + PORT);
+        console.log("MPMV is ready at : " + PORT);
     }
 });
