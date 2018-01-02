@@ -24,10 +24,18 @@ passport.use(new FacebookTokenStrategy({
 
     if (provider) {
         const user = await User.findById(provider.userId);
+        Provider.update(
+            { externalToken: accessToken },
+            { where: { id: provider.id } }
+        );
         return done(null, user!.get({ plain: true }));
     }
 
-    const newUser = await User.create({ name: profile.name.givenName, email: profile.emails[0].value});            
+    const newUser = await User.create({ 
+        name: profile.name.givenName, 
+        email: profile.emails[0].value,
+        avatar: profile.photos[0].value
+    });            
 
     const newProvider = await Provider.create({
         type: "facebook", 
@@ -56,10 +64,18 @@ passport.use(new GoogleTokenStrategy({
 
     if (provider) {
         const user = await User.findById(provider.userId);
+        Provider.update(
+            { externalToken: accessToken },
+            { where: { id: provider.id } }
+        );
         return done(null, user!.get({ plain: true }));
     }
-
-    const newUser = await User.create({ name: profile.displayName, email: profile.emails[0].value });
+    
+    const newUser = await User.create({ 
+        name: profile.displayName, 
+        email: profile.emails[0].value,
+        avatar: profile._json.picture 
+    });
 
     const newProvider = await Provider.create({
         type: "google",
