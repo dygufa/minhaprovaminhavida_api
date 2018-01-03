@@ -32,7 +32,7 @@ Some endpoints (GET) also allow filtering using a query string, in these cases t
 
 URL | Content-Type | Body (POST) / Query String (GET) | Success Response |
 --- | --- | --- | ---
-GET /files | - | `?universityId=<ID>&courseId=<ID>&type=<test|exam>` | File[]
+GET /files | - | ?universityId=<ID>&courseId=<ID>&type=<test\|exam> | File[]
 GET /files/:id | - | - | File
 POST /files | `multipart/form-data` | Keys: i) json: containing a `NewFile` JSON object; ii) files: the files to be uploaded. | File
 DELETE /files/:id | - | - | -
