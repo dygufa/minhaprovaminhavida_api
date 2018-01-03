@@ -28,9 +28,11 @@ In case of success the API will return a 200 HTTP Code along with the "ok" param
 
 All the comunication is encoded using JSON (`application/json`), except for the endpoint `POST /files` that uses `multipart/form-data` in order to handle the file upload.
 
-URL | Content-Type | Data | Success Response |
+Some endpoints (GET) also allow filtering using a query string, in these cases the fielterable fields will be described under the the "Body (POST) / Query String (GET)" column.
+
+URL | Content-Type | Body (POST) / Query String (GET) | Success Response |
 --- | --- | --- | ---
-GET /files | - | - | File[]
+GET /files | - | `?universityId=<ID>&courseId=<ID>&type=<test|exam>` | File[]
 GET /files/:id | - | - | File
 POST /files | `multipart/form-data` | Keys: i) json: containing a `NewFile` JSON object; ii) files: the files to be uploaded. | File
 DELETE /files/:id | - | - | -

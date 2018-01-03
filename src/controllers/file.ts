@@ -3,6 +3,7 @@ import { File, Course, University, User } from "../models/";
 import sequelize from "../sequelize";
 import * as s3 from "../helpers/s3";
 import { only } from "sanitize-object";
+import { reqFiltersToQueryWhere } from "../helpers/utils";
 
 const _sanitizeFile = (file: File) => {
     const sanitizer = only("id", "name", "file", "createdAt", "type", "status");
@@ -16,9 +17,10 @@ const _sanitizeFile = (file: File) => {
  */
 
 export let getFiles = (req: Request, res: Response) => {
-	File.findAll({
+    File.findAll({
         attributes: ["id", "name", "file", "createdAt", "type"],
         order: [["id", "DESC"]],
+        where: reqFiltersToQueryWhere(req, ["universityId", "courseId", "type"]),
         include: [
             { model: Course, attributes: ["id", "name", "code"] },
             { model: University, attributes: ["id", "name", "acronym"] },

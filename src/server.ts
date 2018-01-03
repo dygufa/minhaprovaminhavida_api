@@ -42,8 +42,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(passport.initialize());
 app.use(cors());
 
-var auth = function (req: Request, res: Response, next: NextFunction) {
-    passport.authenticate("jwt", { session: false }, function (err, user, info) {
+var auth = (req: Request, res: Response, next: NextFunction) => {
+    passport.authenticate("jwt", { session: false }, (err, user, info) => {
         if (err) { 
             return res.status(500).json({
                 ok: false,
